@@ -49,13 +49,11 @@ class Mtnpay_gateway extends App_gateway
                 [
                     'name'      => 'mtnpay_api_user',
                     'label'     => 'mtnpay_api_user',
-                    'field_attributes' => ['disabled' => true],
                 ],
                 [
                     'name'      => 'mtnpay_api_key',
                     'encrypted' => true,
                     'label'     => 'mtnpay_api_key',
-                    'field_attributes' => ['disabled' => true],
                 ],
                 [
                     'name'          => 'description',
@@ -81,7 +79,10 @@ class Mtnpay_gateway extends App_gateway
         /**
          * Add notice to generate Api keys
          */
-        // hooks()->add_action('before_render_payment_gateway_settings', 'mtnpay_generate_keys');
+        hooks()->add_action('before_render_payment_gateway_settings', function ()
+        {
+            echo strtolower(mtnpay_generate_keys());
+        });
     }
 
     /**
@@ -130,7 +131,7 @@ class Mtnpay_gateway extends App_gateway
 
     public function generate_reference_id()
     {
-        return trim(com_create_guid(), '{}');
+        return mtnpay_generate_keys();
     }
 
     public function host()
@@ -141,7 +142,7 @@ class Mtnpay_gateway extends App_gateway
     public function widget_link()
     {
         return $this->getSetting('test_mode_enabled') == '1' ?
-            'https://momowebaccess.mtn.co.ug:8018/v0.1.0/mobile-money-widget-mtn.js' :
+            'https://widget.northeurope.cloudapp.azure.com:9443/v0.1.0/mobile-money-widget-mtn.js' :
             'https://widget.northeurope.cloudapp.azure.com:9443/v0.1.0/mobile-money-widget-mtn.js';
     }
 

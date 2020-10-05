@@ -16,7 +16,7 @@ class Mtnpay extends App_Controller
         load_client_language($invoice->clientid);
 
         $data  = $invoice;
-        $data->total = $this->session->userdata('paddle_total');
+        $data->total = $this->session->userdata('mtnpay_total');
         $data->description = $this->mtnpay_gateway->description($invoice_id);
         $data->api_user = $this->mtnpay_gateway->api_user();
         $data->widget_link = $this->mtnpay_gateway->widget_link();
